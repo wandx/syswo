@@ -12,7 +12,10 @@ dependencies:
     sdk: flutter
   chopper: ^8.5.0
   syswo_core:
-    path: ../syswo_core
+    git:
+      url: https://github.com/wandx/syswo.git
+      ref: develop
+      path: packages/syswo_core
   freezed_annotation: ^3.1.0
   json_annotation: ^4.9.0
 
