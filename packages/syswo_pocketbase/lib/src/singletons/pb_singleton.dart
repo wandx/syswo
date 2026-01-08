@@ -82,6 +82,11 @@ class PbSingleton {
     return prefs.getString('pb_token') ?? '';
   }
 
+  RecordModel updateAuth(RecordAuth auth) {
+    _authStore?.save(auth.token, auth.record);
+    return auth.record;
+  }
+
   Future<RecordModel> loginWithEmailAndPassword(
     String email,
     String password,
@@ -89,15 +94,13 @@ class PbSingleton {
     final login = await _pocketBase
         .collection('users')
         .authWithPassword(email, password);
-    if (_authStore == null) {
-      _authStore = AsyncAuthStore(
-        initial: login.token,
-        save: _saveToken,
-        clear: _clearToken,
-      );
-    } else {
-      _authStore?.save(login.token, login.record);
-    }
+    _authStore ??= AsyncAuthStore(
+      initial: login.token,
+      save: _saveToken,
+      clear: _clearToken,
+    );
+
+    _authStore?.save(login.token, login.record);
     return login.record;
   }
 
