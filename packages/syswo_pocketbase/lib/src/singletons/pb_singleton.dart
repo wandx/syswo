@@ -83,6 +83,11 @@ class PbSingleton {
   }
 
   RecordModel updateAuth(RecordAuth auth) {
+    _authStore ??= AsyncAuthStore(
+      initial: auth.token,
+      save: _saveToken,
+      clear: _clearToken,
+    );
     _authStore?.save(auth.token, auth.record);
     return auth.record;
   }
